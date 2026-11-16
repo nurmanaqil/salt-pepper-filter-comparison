@@ -1,5 +1,43 @@
 # Crop tulisan tangan IAM
 
+## IPSMF: deteksi dan rekonstruksi
+
+Dari root repository:
+
+```powershell
+python -m ipsmf.ipsmf
+python -m unittest ipsmf.test_ipsmf
+```
+
+Membaca hanya `citra_berderau/**/*_derau.png`, tanpa memakai citra bersih,
+mask injeksi, atau gambar bukti crop. Struktur rasio/nama citra dipertahankan
+di `hasil_ipsmf`; mask deteksi (putih = dicurigai rusak) berada di
+`mask_deteksi_ipsmf`. Folder hasil yang sudah ada tidak ditimpa; gunakan
+`--output hasil_ipsmf_baru --mask_output mask_deteksi_ipsmf_baru` untuk mengulang.
+
+Implementasi mengikuti Boo, Ibrahim & Toh (2009), DOI 10.1109/ICFCC.2009.87:
+estimasi RE memakai median 3x3 dan TI=40, WD=3 bila RE<=0.25 atau 5
+selebihnya, TD=65-50*RE, dan ND=3. RE merupakan estimasi dari citra,
+bukan persentase injeksi generator. Deteksi mengganti piksel yang baru
+ditandai; rekonstruksi dimulai kembali dari citra berderau asli.
+Rekonstruksi memakai WF=3, minimal GP=5 tetangga bersih, dan
+`(median + mean)/2`. Piksel yang dipulihkan baru digunakan pada iterasi
+berikutnya. Padding `reflect` mengikuti utilitas PSMF yang ada; perhitungan
+float32, pembulatan akhir `np.rint` (nilai tepat setengah menuju integer genap),
+lalu clipping ke 0..255.
+
+`hasil_ipsmf/metadata_ipsmf.csv` mencatat parameter, jumlah deteksi,
+iterasi rekonstruksi, jumlah piksel yang belum pulih, dan alasan berhenti.
+Jika tidak ada kemajuan atau batas 100 iterasi tercapai, piksel tersisa
+dipertahankan tanpa memperbesar jendela di luar metode. Periksa
+`unresolved_pixels` dan `stop_reason` sebelum mengevaluasi hasil.
+GP dan batas iterasi dapat diatur dengan `--GP` dan `--max_iter`;
+gunakan nilai yang sama untuk semua kondisi eksperimen.
+
+Fungsi `ipsmf_filter(image)` mengembalikan `(restored, mask)` seperti PSMF;
+`return_info=True` menambahkan laporan. Helper jendela/median memakai
+modul PSMF yang ada; algoritme PSMF tersebut tidak diubah.
+
 Program mengambil potongan asli **512 x 512 piksel**, grayscale 8-bit (mode `L`).
 Tidak ada resize, binarisasi, penambahan derau, atau perubahan file dataset.
 Potongan berisi sebagian kata/baris, bukan seluruh paragraf yang diperkecil.
