@@ -1,0 +1,10 @@
+﻿file,window,padding,iterations,mask_type,changed_pixels,total_pixels
+25_75/e01-014_x700_y1050_512x512_seed42_derau.png,3,reflect,1,output_ne_input,149835,262144
+25_75/e01-018_x700_y1200_512x512_seed42_derau.png,3,reflect,1,output_ne_input,162128,262144
+25_75/e01-059_x700_y1100_512x512_seed42_derau.png,3,reflect,1,output_ne_input,160415,262144
+50_50/e01-014_x700_y1050_512x512_seed42_derau.png,3,reflect,1,output_ne_input,148846,262144
+50_50/e01-018_x700_y1200_512x512_seed42_derau.png,3,reflect,1,output_ne_input,161043,262144
+50_50/e01-059_x700_y1100_512x512_seed42_derau.png,3,reflect,1,output_ne_input,159094,262144
+75_25/e01-014_x700_y1050_512x512_seed42_derau.png,3,reflect,1,output_ne_input,147096,262144
+75_25/e01-018_x700_y1200_512x512_seed42_derau.png,3,reflect,1,output_ne_input,159409,262144
+75_25/e01-059_x700_y1100_512x512_seed42_derau.png,3,reflect,1,output_ne_input,157518,262144
