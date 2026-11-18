@@ -1,6 +1,6 @@
 """IPSMF menurut Boo, Ibrahim & Toh (2009), DOI 10.1109/ICFCC.2009.87.
 
-Jalankan dari root proyek: python -m ipsmf.ipsmf
+Jalankan dari root proyek: python -m src.ipsmf.ipsmf
 Input hanya citra berderau; mask injeksi dan citra acuan tidak dipakai.
 """
 
@@ -11,9 +11,9 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 
-from psmf.psmf import _windows, _local_median, _masked_median
+from src.psmf.psmf import _windows, _local_median, _masked_median
 
-BASE = Path(__file__).resolve().parents[1]
+BASE = Path(__file__).resolve().parents[2]  # src/ipsmf/ipsmf.py -> root proyek
 MAX_RECOVERY_ITER = 100
 
 
@@ -129,9 +129,9 @@ def process_folder(input_dir, output_dir, mask_dir, **params):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--input', type=Path, default=BASE / 'citra_berderau')
-    parser.add_argument('--output', type=Path, default=BASE / 'hasil_ipsmf')
-    parser.add_argument('--mask_output', type=Path, default=BASE / 'mask_deteksi_ipsmf')
+    parser.add_argument('--input', type=Path, default=BASE / 'dataset' / 'citra_berderau')
+    parser.add_argument('--output', type=Path, default=BASE / 'hasil' / 'ipsmf')
+    parser.add_argument('--mask_output', type=Path, default=BASE / 'mask_deteksi' / 'ipsmf')
     parser.add_argument('--GP', type=int, choices=range(1, 9), default=5)
     parser.add_argument('--max_iter', type=int, default=MAX_RECOVERY_ITER)
     args = parser.parse_args()

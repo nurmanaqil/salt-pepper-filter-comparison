@@ -1,7 +1,7 @@
 """Generator salt-and-pepper berpasangan: injeksi 30%, tiga rasio salt:pepper.
 
-Jalankan: python generator_derau.py --seed 42
-Dependensi: numpy dan Pillow. Input default: PNG pada hasil_crop (tanpa rekursi).
+Jalankan dari root proyek: python src/generator_derau/generator_derau.py --seed 42
+Dependensi: numpy dan Pillow. Input default: PNG pada dataset/hasil_crop (tanpa rekursi).
 """
 
 import argparse
@@ -13,7 +13,7 @@ import numpy as np
 from PIL import Image
 
 
-BASE = Path(__file__).resolve().parent
+BASE = Path(__file__).resolve().parents[2]  # src/generator_derau/ -> root proyek
 RASIO_SALT = (25, 50, 75)
 
 
@@ -43,8 +43,8 @@ def buat_derau(citra, seed_crop):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--input', type=Path, default=BASE / 'hasil_crop')
-    parser.add_argument('--output', type=Path, default=BASE / 'citra_berderau')
+    parser.add_argument('--input', type=Path, default=BASE / 'dataset' / 'hasil_crop')
+    parser.add_argument('--output', type=Path, default=BASE / 'dataset' / 'citra_berderau')
     parser.add_argument('--seed', type=int, default=42)
     args = parser.parse_args()
     if args.seed < 0:

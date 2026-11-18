@@ -8,7 +8,7 @@ import numpy as np
 from numpy.lib.stride_tricks import sliding_window_view
 from PIL import Image
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parents[2]  # src/smf/smf.py -> root proyek
 
 
 def smf_filter(image, window=3):
@@ -25,9 +25,9 @@ def smf_filter(image, window=3):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--input', type=Path, default=ROOT / 'citra_berderau')
-    parser.add_argument('--output', type=Path, default=ROOT / 'hasil_deteksi_smf')
-    parser.add_argument('--mask_output', type=Path, default=ROOT / 'mask_deteksi_smf')
+    parser.add_argument('--input', type=Path, default=ROOT / 'dataset' / 'citra_berderau')
+    parser.add_argument('--output', type=Path, default=ROOT / 'hasil' / 'smf')
+    parser.add_argument('--mask_output', type=Path, default=ROOT / 'mask_deteksi' / 'smf')
     parser.add_argument('--window', type=int, default=3)
     args = parser.parse_args()
     if args.window < 1 or args.window % 2 == 0:
@@ -73,14 +73,14 @@ def main():
     explanation = (
         '# Hasil SMF\n\nSMF standar mengganti setiap piksel dengan median lokal '
         f'{args.window} x {args.window}, satu putaran dengan padding reflect.\n\n'
-        'SMF tidak memiliki tahap deteksi derau. Folder mask_deteksi_smf '
+        'SMF tidak memiliki tahap deteksi derau. Folder mask_deteksi/smf '
         'menyimpan MASK PERUBAHAN AKIBAT FILTER: putih (255) jika hasil berbeda '
         'dari input berderau, hitam (0) jika sama. Ini bukan prediksi piksel '
         'rusak, bukan mask injeksi, dan bukan mask perubahan aktual generator. '
         'Jangan memakai mask ini sebagai detektor SMF untuk menghitung '
         'akurasi deteksi atau membandingkan detektor PSMF/IPSMF.\n\n'
-        'Nama hasil_deteksi_smf mengikuti permintaan struktur folder; PNG '
-        'di dalamnya adalah hasil pemulihan SMF, bukan hasil deteksi. '
+        'PNG di folder hasil/smf adalah hasil pemulihan SMF, bukan hasil '
+        'deteksi. '
         'Subfolder mempertahankan rasio salt:pepper input.\n'
     )
     for folder in (args.output, args.mask_output):

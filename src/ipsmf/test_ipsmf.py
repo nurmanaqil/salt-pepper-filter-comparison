@@ -1,9 +1,9 @@
-"""Jalankan: python -m unittest ipsmf.test_ipsmf"""
+"""Jalankan dari root proyek: python -m unittest src.ipsmf.test_ipsmf"""
 import unittest
 
 import numpy as np
 
-from ipsmf.ipsmf import detect_impulses, ipsmf_filter, restore_image
+from src.ipsmf.ipsmf import detect_impulses, ipsmf_filter, restore_image
 
 
 class IPSMFTests(unittest.TestCase):
